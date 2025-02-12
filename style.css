@@ -1,0 +1,268 @@
+/* ------------------------------
+   기본 리셋 및 폰트 설정
+------------------------------ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: sans-serif;
+    color: #333;
+    background-color: #F5F6FF;
+    /* 가장 연한 배경색 */
+    line-height: 1.5;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* ------------------------------
+     컬러 팔레트 (Main)
+     #6948CC, #7E62D3, #958BDE, #BEBBEC, #F5F6FF
+  ------------------------------ */
+:root {
+    --color-primary-dark: #6948CC;
+    --color-primary: #7E62D3;
+    --color-primary-light: #958BDE;
+    --color-secondary-light: #BEBBEC;
+    --color-bg: #F5F6FF;
+}
+
+/* ------------------------------
+     헤더 스타일
+  ------------------------------ */
+header {
+    width: 100%;
+    background-color: #fff;
+    border-bottom: 1px solid var(--color-secondary-light);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+}
+
+.logo h1 {
+    font-size: 1.25rem;
+    color: var(--color-primary-dark);
+}
+
+nav ul {
+    display: flex;
+    gap: 2rem;
+}
+
+nav li {
+    list-style: none;
+    font-weight: 500;
+}
+
+/* ------------------------------
+     Hero 섹션(상단 배너)
+  ------------------------------ */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem 2rem;
+    background-color: var(--color-primary-light);
+    color: #fff;
+}
+
+.hero-text {
+    max-width: 50%;
+}
+
+.hero-text h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.hero-text p {
+    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.cta-button {
+    background-color: var(--color-primary-dark);
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    color: #fff;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.hero-image img {
+    width: 400px;
+    max-width: 100%;
+    height: auto;
+}
+
+/* ------------------------------
+     메인 컨텐츠 섹션
+     (1) 맞춤 커리큘럼
+     (2) 실무 프로젝트
+     (3) 동기 부여 챌린지
+  ------------------------------ */
+.section {
+    padding: 3rem 2rem;
+    background-color: #fff;
+    margin-bottom: 1rem;
+}
+
+.section-title {
+    font-size: 1.5rem;
+    color: var(--color-primary-dark);
+    margin-bottom: 1rem;
+}
+
+.section-content {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.section-text {
+    flex: 1;
+}
+
+.section-text h3 {
+    margin-bottom: 0.5rem;
+    font-size: 1.25rem;
+    color: var(--color-primary);
+}
+
+.section-text p {
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.section-image {
+    flex: 1;
+    text-align: center;
+}
+
+.section-image img {
+    width: 300px;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid var(--color-secondary-light);
+    border-radius: 0.5rem;
+}
+
+/* ------------------------------
+     다운로드 섹션 (재귀 CTA)
+  ------------------------------ */
+.download-section {
+    text-align: center;
+    padding: 3rem 2rem;
+    background-color: var(--color-primary-light);
+    color: #fff;
+}
+
+.download-section h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.store-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.store-button {
+    background-color: var(--color-primary-dark);
+    padding: 0.8rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+}
+
+.store-button img {
+    width: 24px;
+    height: 24px;
+}
+
+/* ------------------------------
+     푸터
+  ------------------------------ */
+footer {
+    background-color: #fff;
+    border-top: 1px solid var(--color-secondary-light);
+    text-align: center;
+    padding: 1rem;
+    font-size: 0.9rem;
+}
+
+/* ------------------------------
+     모달 (앱 스토어 다운로드 안내창 예시)
+  ------------------------------ */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    /* 초기에는 숨김 */
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 0.5rem;
+    max-width: 400px;
+    width: 80%;
+    text-align: center;
+}
+
+.modal h3 {
+    margin-bottom: 1rem;
+    color: var(--color-primary-dark);
+    font-size: 1.2rem;
+}
+
+.close-button {
+    background-color: var(--color-primary-dark);
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.3rem;
+    cursor: pointer;
+    margin-top: 1rem;
+    font-weight: 600;
+}
