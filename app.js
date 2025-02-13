@@ -1,81 +1,18 @@
-// 모달 열고 닫는 기능 + GA 이벤트 트래킹 예시
-// app.js (일부 발췌 예시)
-
-/* 기존 모달/버튼 JS 로직은 유지하되, 추가로 사이드바 로직을 포함합니다. */
+// app.js
 
 document.addEventListener('DOMContentLoaded', function () {
-    // ==========================================
-    // 1) 기존 모달 열고 닫는 로직 (생략) ...
-    // ==========================================
-
-    // ==========================================
-    // 2) 사이드바 - 현재 섹션 표시 로직
-    // ==========================================
-
-    // (1) 모든 섹션과 사이드바 링크 요소를 가져옴
-    const sections = document.querySelectorAll('section'); // hero, section-curriculum, etc.
-    const navLinks = document.querySelectorAll('.side-nav a');
-
-    // Intersection Observer 옵션
-    const options = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.3 // 섹션이 30% 보이면 "활성"으로 간주
-    };
-
-    // 콜백 함수
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                // 현재 뷰포트에 들어온 섹션의 ID
-                const id = entry.target.getAttribute('id');
-
-                // 모든 사이드바 링크에서 active 제거
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    // 링크의 href="#section-id" 가 섹션 ID와 같다면 해당 링크에 active 부여
-                    if (link.getAttribute('href') === `#${id}`) {
-                        link.classList.add('active');
-                    }
-                });
-            }
-        });
-    }, options);
-
-    // (2) 각 섹션을 옵저버로 관찰
-    sections.forEach(section => {
-        observer.observe(section);
-    });
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    const downloadBtn = document.getElementById('downloadCtaBtn');
+    /**
+     * -----------------------------------------------------------
+     * (A) 모달 열고 닫기 (필요 시 유지 or 주석 처리)
+     * -----------------------------------------------------------
+     */
     const modalOverlay = document.getElementById('modalOverlay');
     const closeModalBtn = document.getElementById('closeModalBtn');
 
-    // "앱 다운로드" 버튼 클릭 시 모달 표시 + GA 이벤트 전송
-    if (downloadBtn) {
-        downloadBtn.addEventListener('click', () => {
-            // 1) 모달 표시
-            if (modalOverlay) {
-                modalOverlay.style.display = 'flex';
-            }
-
-            // 2) Google Analytics에 'click_download_cta' 이벤트 전송
-            //    GA4 스니펫이 <head>에 존재해야 gtag 함수를 호출할 수 있음
-            gtag('event', 'click_download_cta', {
-                event_category: 'button',
-                event_label: 'Download CTA'
-            });
-        });
-    }
-
-    // 모달 닫기 버튼 클릭 시 모달 닫기
-    if (closeModalBtn) {
+    // 닫기 버튼 클릭 시 모달 닫기
+    if (closeModalBtn && modalOverlay) {
         closeModalBtn.addEventListener('click', () => {
-            if (modalOverlay) {
-                modalOverlay.style.display = 'none';
-            }
+            modalOverlay.style.display = 'none';
         });
     }
 
@@ -87,106 +24,155 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }
-    // 2) 사이드바 - 현재 섹션 표시 로직
-    // ==========================================
 
-    // (1) 모든 섹션과 사이드바 링크 요소를 가져옴
-    const sections = document.querySelectorAll('section'); // hero, section-curriculum, etc.
-    const navLinks = document.querySelectorAll('.side-nav a');
+    /**
+     * -----------------------------------------------------------
+     * (B) 버튼 클릭 시 alert + GA 이벤트 전송
+     * -----------------------------------------------------------
+     */
+    // 1) 스토어 다운로드 버튼 (예: id="storeDownloadBtn")
+    const storeButtons = document.querySelectorAll('.store-button');
+    storeButtons.forEach((btn) => {
+        btn.addEventListener('click', (event) => {
+            event.preventDefault(); // href="#" 기본 이동 방지
+            alert("개발중인 기능입니다!\n" +
+                "랜딩페이지를 흥미있게 보셨다면 " +
+                "아랫쪽 구글폼으로 설문해 주시면 감사하겠습니다.");
+            gtag('event', 'click_download_cta', {
+                event_category: 'button',
+                event_label: 'Download CTA_1'
+            });
+        });
+    });
 
-    // Intersection Observer 옵션
-    const options = {
+    // 2) 앱 다운로드 버튼 (예: id="downloadCtaBtn")
+    const downloadBtn = document.getElementById('downloadCtaBtn');
+    if (downloadBtn) {
+        downloadBtn.addEventListener('click', function (event) {
+            event.preventDefault(); // 혹시 모를 기본 동작 방지
+            alert("개발중인 기능입니다!\n" +
+                "랜딩페이지를 흥미있게 보셨다면 " +
+                "아랫쪽 구글폼으로 설문해 주시면 감사하겠습니다.");
+
+            // GA 이벤트 추적
+            gtag('event', 'click_download_cta', {
+                event_category: 'button',
+                event_label: 'Download CTA_2'
+            });
+        });
+    }
+
+    /**
+     * -----------------------------------------------------------
+     * (C) 사이드바 - 현재 섹션 강조 (Intersection Observer)
+     * -----------------------------------------------------------
+     */
+    const sections = document.querySelectorAll('section');       // hero, section-curriculum 등
+    const navLinks = document.querySelectorAll('.side-nav a');  // 사이드바 링크
+
+    const sideNavOptions = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.3 // 섹션이 30% 보이면 "활성"으로 간주
+        threshold: 0.3 // 섹션이 30% 이상 보이면 활성화
     };
 
-    // 콜백 함수
-    const observer = new IntersectionObserver((entries) => {
+    const sideNavObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                // 현재 뷰포트에 들어온 섹션의 ID
                 const id = entry.target.getAttribute('id');
-
-                // 모든 사이드바 링크에서 active 제거
                 navLinks.forEach(link => {
                     link.classList.remove('active');
-                    // 링크의 href="#section-id" 가 섹션 ID와 같다면 해당 링크에 active 부여
                     if (link.getAttribute('href') === `#${id}`) {
                         link.classList.add('active');
                     }
                 });
             }
         });
-    }, options);
+    }, sideNavOptions);
 
-    // (2) 각 섹션을 옵저버로 관찰
     sections.forEach(section => {
-        observer.observe(section);
+        sideNavObserver.observe(section);
     });
 
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    // ======================
-    // (1) 기존 모달 코드 예시 (있다면 유지)
-    // ======================
-    /*
-    const downloadBtn = document.getElementById('downloadCtaBtn');
-    const modalOverlay = document.getElementById('modalOverlay');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    ...
-    */
-
-    // ======================
-    // (2) 슬라이드 로직 추가
-    // ======================
-
+    /**
+     * -----------------------------------------------------------
+     * (D) 슬라이드 쇼 로직 (hero 슬라이드 등)
+     * -----------------------------------------------------------
+     */
     const slides = document.querySelectorAll('.slide');
     const prevBtn = document.getElementById('slidePrevBtn');
     const nextBtn = document.getElementById('slideNextBtn');
 
-    let currentIndex = 0;
-    const totalSlides = slides.length;
-    const changeSlide = (newIndex) => {
-        // 1) 모든 슬라이드 숨김
-        slides.forEach(slide => slide.classList.remove('active'));
+    if (slides.length > 0) {
+        let currentIndex = 0;
+        const totalSlides = slides.length;
 
-        // 2) 새 인덱스 적용 (순환되도록 모듈로)
-        currentIndex = (newIndex + totalSlides) % totalSlides;
+        const changeSlide = (newIndex) => {
+            // 모든 슬라이드 숨김
+            slides.forEach(slide => slide.classList.remove('active'));
 
-        // 3) 해당 슬라이드 표시
-        slides[currentIndex].classList.add('active');
-    };
+            // 순환 방식으로 인덱스 계산
+            currentIndex = (newIndex + totalSlides) % totalSlides;
 
-    // 초기 표시
-    changeSlide(currentIndex);
+            // 현재 슬라이드만 표시
+            slides[currentIndex].classList.add('active');
+        };
 
-    // 화살표 클릭
-    prevBtn.addEventListener('click', () => {
-        changeSlide(currentIndex - 1);
-    });
-    nextBtn.addEventListener('click', () => {
-        changeSlide(currentIndex + 1);
-    });
+        // 초기 표시
+        changeSlide(currentIndex);
 
-    // 10초마다 자동전환
-    setInterval(() => {
-        changeSlide(currentIndex + 1);
-    }, 10000); // 10000ms = 10초
-
-    // ======================
-    // (3) 기타 GA 이벤트 추적, etc.
-    // ======================
-    // 예: CTA 버튼 클릭 GA 이벤트
-    const downloadCtaButton = document.getElementById('downloadCtaBtn');
-    if (downloadCtaButton) {
-        downloadCtaButton.addEventListener('click', () => {
-            // 구글 애널리틱스 이벤트 예시
-            gtag('event', 'click_download_cta', {
-                event_category: 'button',
-                event_label: 'Wide CTA Bottom'
+        // 화살표 클릭
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                changeSlide(currentIndex - 1);
             });
+        }
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                changeSlide(currentIndex + 1);
+            });
+        }
+
+        // 10초마다 자동전환
+        setInterval(() => {
+            changeSlide(currentIndex + 1);
+        }, 10000);
+    }
+
+    /**
+     * -----------------------------------------------------------
+     * (E) 오른쪽 하단 고정 CTA 버튼 (구글 폼 링크)
+     * -----------------------------------------------------------
+     */
+    const floatingCta = document.getElementById('floatingCtaBtn');
+    if (floatingCta) {
+        floatingCta.addEventListener('click', () => {
+            // 새 탭으로 구글 폼 열기
+            window.open('https://forms.gle/n8t3WWwKp5VVW29U6', '_blank');
+
+            // GA 이벤트 전송
+            gtag('event', 'click_landingpage_evaluation', {
+                event_category: 'cta',
+                event_label: '구글 폼 이동'
+            });
+        });
+    }
+
+    /**
+     * -----------------------------------------------------------
+     * (F) 본문 1번 섹션: 체험해 보기 토글
+     * -----------------------------------------------------------
+     */
+    const toggleBtn = document.getElementById('toggleExperienceBtn');
+    const experienceContent = document.getElementById('experienceContent');
+
+    if (toggleBtn && experienceContent) {
+        toggleBtn.addEventListener('click', () => {
+            if (experienceContent.style.display === 'none') {
+                experienceContent.style.display = 'block';
+            } else {
+                experienceContent.style.display = 'none';
+            }
         });
     }
 });

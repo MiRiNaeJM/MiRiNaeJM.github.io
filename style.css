@@ -1,9 +1,16 @@
-/* ------------------------------
-   기본 리셋 및 폰트 설정
------------------------------- */
-
+/* ================================
+   1) 기본 리셋 & 전역 설정
+================================ */
 :root {
+    /* 모든 rem 단위가 커지도록 기본 폰트 사이즈 125% */
     font-size: 125%;
+
+    /* 컬러 팔레트 */
+    --color-primary-dark: #6948CC;
+    --color-primary: #7E62D3;
+    --color-primary-light: #958BDE;
+    --color-secondary-light: #BEBBEC;
+    --color-bg: #F5F6FF;
 }
 
 * {
@@ -15,8 +22,7 @@
 body {
     font-family: sans-serif;
     color: #333;
-    background-color: #F5F6FF;
-    /* 가장 연한 배경색 */
+    background-color: var(--color-bg);
     line-height: 1.5;
 }
 
@@ -25,175 +31,120 @@ a {
     color: inherit;
 }
 
-/* ------------------------------
-     컬러 팔레트 (Main)
-     #6948CC, #7E62D3, #958BDE, #BEBBEC, #F5F6FF
-  ------------------------------ */
-:root {
-    --color-primary-dark: #6948CC;
-    --color-primary: #7E62D3;
-    --color-primary-light: #958BDE;
-    --color-secondary-light: #BEBBEC;
-    --color-bg: #F5F6FF;
-}
 
-/* ------------------------------
-     헤더 스타일
-  ------------------------------ */
-/* 기존 스타일은 유지, 여기서는 새로운 .side-nav 관련 스타일만 추가 예시 */
-
-/* 사이드바 네비게이션 컨테이너 */
+/* ================================
+     2) 사이드바 네비게이션
+  ================================ */
 .side-nav {
     position: fixed;
     top: 50%;
     left: 1rem;
-    /* 원하는 좌측 거리 */
     transform: translateY(-50%);
     z-index: 999;
-    /* 모달보다 낮거나 높게 조정 가능 */
-    /* 배경이 투명할 수 있으므로 배경색은 없앰 */
-    /* width, height 등은 필요에 맞게 조절 */
 }
 
-/* 사이드바 목록 배치 */
 .side-nav ul {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 0;
-    margin: 0;
 }
 
-/* 사이드바 링크 기본 스타일 */
 .side-nav a {
-    text-decoration: none;
     font-size: 1rem;
     padding: 0.5rem;
-
-    /* '반투명' 예: 회색/검정 + 투명도 */
     color: rgba(0, 0, 0, 0.2);
     transition: color 0.3s, font-weight 0.3s;
 }
 
-/* 현재 섹션(Active) 기본 상태: 조금 더 진하게 (예: 0.5 투명) */
 .side-nav a.active {
     color: rgba(0, 0, 0, 0.5);
     font-weight: 600;
 }
 
-/* 마우스 사이드바 Hover 시: 모든 메뉴가 검은색, 현재 섹션은 볼드 */
 .side-nav:hover a {
     color: #000;
     font-weight: normal;
 }
 
-/* Hover 상태에서도 active 메뉴는 더 볼드하게 */
 .side-nav:hover a.active {
-    font-weight: 700;
     color: #000;
-    /* 완전 검정 */
+    font-weight: 700;
 }
 
 
-.logo {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.logo img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-}
-
-.logo h1 {
-    font-size: 1.25rem;
-    color: var(--color-primary-dark);
-}
-
-nav ul {
-    display: flex;
-    gap: 2rem;
-}
-
-nav li {
-    list-style: none;
-    font-weight: 500;
-}
-
-/* ------------------------------
-     Hero 섹션(상단 배너)
-  ------------------------------ */
-/* 히어로 섹션 전체 컨테이너 */
+/* ================================
+     3) Hero 섹션
+  ================================ */
 .hero {
     position: relative;
-    /* 자식 요소를 절대배치하기 위해 */
     width: 100%;
     min-height: 700px;
-    /* 임의 높이, 조정 가능 */
+    /* 적절히 조정 */
     background-color: var(--color-primary-light);
-    /* 기존보다 조금 더 큰 영역으로 가정 */
-    overflow: hidden;
-    /* 필요시 숨김 */
     color: #fff;
     padding: 2rem;
     display: flex;
-    /* 좌측 슬라이드, 우측 슬로건+아이콘, 아래 CTA 배치 시 flex/free 레이아웃 */
+    justify-content: space-between;
+    /* 왼-오 쪽으로 분리 */
+    align-items: center;
+    /* 수직 가운데 정렬 */
 }
 
-/* 좌측 슬라이드 박스 */
+/* 슬라이드(좌측) */
 .hero-rotator {
     position: relative;
     width: 50%;
-    /* 좌측 절반 차지 (예시) */
     margin-right: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* slides 감싸는 컨테이너 */
 .slides {
     position: relative;
     width: 600px;
-    /* 슬라이드 이미지 너비에 맞춤 */
     height: 600px;
-    /* 슬라이드 높이에 맞춤 */
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-/* 각 슬라이드 */
 .slide {
     position: absolute;
     top: 0;
     left: 0;
-    width: 75%;
-    height: 75%;
+    width: 100%;
+    max-width: 500px;
+    /* 예시 */
     display: none;
-    /* 기본은 숨김 */
     flex-direction: column;
     align-items: center;
     justify-content: center;
     text-align: center;
 }
 
+.slide h3 {
+    font-size: 1rem;
+    /* 줄임 */
+    /* or max-width: 300px; if you want narrower text block */
+    text-align: center;
+    margin: 0 0.5rem;
+}
+
 .slide img {
     max-width: 100%;
     height: auto;
     margin-bottom: 0.5rem;
+    object-fit: contain;
 }
 
 .slide.active {
     display: flex;
-    /* 현재 슬라이드만 표시 */
 }
 
-/* 좌우 화살표 버튼 */
+/* 화살표 버튼 */
 .arrow {
     background: none;
     border: 2px solid #fff;
@@ -212,7 +163,7 @@ nav li {
     opacity: 1;
 }
 
-/* 우상단: 앱 아이콘 */
+/* 우상단 앱 아이콘 */
 .hero-top-right {
     position: absolute;
     top: 1rem;
@@ -225,23 +176,37 @@ nav li {
     object-fit: contain;
 }
 
-/* 우중단: 슬로건 (큰 글씨) */
-.hero-mid-right {
-    margin-left: auto;
-    /* 왼쪽 요소들 뒤로 밀기 */
-    margin-right: 2rem;
+.hero-right-container {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    flex-direction: column;
+    /* 위에 로고, 아래에 슬로건 */
+    align-items: flex-end;
+    /* 우측 정렬 */
+    gap: 1rem;
+    /* flex: 0;  // 크기를 줄이거나 필요에 맞게 조정 */
+    margin-left: 1.5rem;
+    /* 왼쪽 슬라이드와 간격 */
+    margin-bottom: 2rem;
 }
 
-.hero-mid-right h2 {
-    font-size: 1.8rem;
+/* 로고 크기 */
+.hero-right-container .app-icon {
+    width: 150px;
+    /* 원하는 크기로 조정 */
+    height: auto;
+    object-fit: contain;
+    margin-bottom: 2rem;
+}
+
+/* 슬로건 글자 오른쪽 정렬 */
+.hero-right-container h2 {
+    text-align: right;
+    font-size: 3rem;
     line-height: 1.3;
-    text-align: center;
 }
 
-/* 하단 전체: CTA 버튼 */
+
+/* 하단 CTA 버튼 */
 .cta-button-wide {
     position: absolute;
     bottom: 0;
@@ -256,59 +221,68 @@ nav li {
     cursor: pointer;
 }
 
-/* 공통 섹션 스타일 (3파트 통일) */
+
+/* ================================
+     4) "왜 PlanIT일까요?" 섹션
+  ================================ */
+#why-planit {
+    text-align: center;
+    padding: 2rem;
+    background-color: #f3f3f3;
+}
+
+#why-planit h2 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.why-planit-image {
+    max-width: 1000px;
+    width: 80%;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+
+/* ================================
+     5) 공통 섹션 스타일 (common-section)
+  ================================ */
 .common-section {
     width: 100%;
     text-align: center;
-    /* 모든 요소 가운데 정렬 */
     padding: 3rem 0;
-    /* 위아래 공간 */
     background-color: #fff;
-    /* 필요 시 색상 조정 */
 }
 
-/* 상단 제목 박스 (화면폭 50%, 진한 배경) */
 .common-section .title-box {
     width: 50%;
     margin: 0 auto;
-    /* 가운데 정렬 */
     background-color: var(--color-primary-dark);
-    /* 진한 색상 */
     color: #fff;
     padding: 1rem;
     border-radius: 0.3rem;
-    /* 모서리 둥글림(선택) */
 }
 
 .common-section .title-box h2 {
     margin: 0;
     font-weight: 700;
-    /* 굵은 글씨 */
     font-size: 1.3rem;
 }
 
-/* 자료사진 */
 .common-section .section-image {
     display: block;
     margin: 1rem auto;
-    /* 수직 간격 + 중앙정렬 */
     max-width: 80%;
-    /* 필요시 크기 조정 */
     height: auto;
 }
 
-/* 한 줄 고민 */
 .one-liner {
     margin: 1rem 0;
     font-style: italic;
-    /* 기울임(선택) */
     font-weight: 600;
-    /* 약간 굵게(선택) */
     color: #555;
-    /* 색상 조정 */
 }
 
-/* 이모티콘 / 작은 이미지 공간 */
 .icon-space {
     margin: 1rem 0;
 }
@@ -318,25 +292,22 @@ nav li {
     height: auto;
 }
 
-/* 3줄 고민 (간격 약간 좁게) */
 .three-line-text {
     margin: 1rem 0;
     line-height: 1.4;
     color: #666;
-    /* 예시 */
 }
 
-/* 해결 문구 강조 */
 .highlight-text {
     margin: 1rem 0;
     font-weight: 700;
     font-size: 1.1rem;
     color: var(--color-primary-dark);
-    /* 진한 색상 (선택) */
 }
 
-/* 좌우 2장 이미지 */
-.image-row {
+/* 좌우 2장 이미지 나란히 */
+.image-row,
+.image {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -344,27 +315,17 @@ nav li {
     margin: 1rem 0;
 }
 
-.image-row img {
+.image-row img,
+.image img {
     max-width: 500px;
     height: auto;
     border: 1px solid #ccc;
-    /* 테두리(선택) */
     border-radius: 0.3rem;
-    /* 모서리 둥글림(선택) */
 }
 
-/* 마지막으로 3줄 설명 */
-.three-line-text {
-    margin: 1rem 0;
-    line-height: 1.4;
-    color: #666;
-    /* 예시 */
-}
-
-
-/* ------------------------------
-     다운로드 섹션 (재귀 CTA)
-  ------------------------------ */
+/* ================================
+     6) 다운로드 섹션
+  ================================ */
 .download-section {
     text-align: center;
     padding: 3rem 2rem;
@@ -399,9 +360,10 @@ nav li {
     height: 24px;
 }
 
-/* ------------------------------
-     푸터
-  ------------------------------ */
+
+/* ================================
+     7) 푸터
+  ================================ */
 footer {
     background-color: #fff;
     border-top: 1px solid var(--color-secondary-light);
@@ -410,9 +372,42 @@ footer {
     font-size: 0.9rem;
 }
 
-/* ------------------------------
-     모달 (앱 스토어 다운로드 안내창 예시)
-  ------------------------------ */
+
+/* ================================
+     8) 토글 버튼 & 토글 컨텐츠
+  ================================ */
+.toggle-experience-btn {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--color-primary);
+    color: #fff;
+    border: none;
+    border-radius: 0.3rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.toggle-experience-btn:hover {
+    background-color: var(--color-primary-dark);
+}
+
+.experience-content {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.experience-content img {
+    max-width: 600px;
+    width: 80%;
+    height: auto;
+    margin-bottom: 1rem;
+}
+
+
+/* ================================
+     9) 모달
+  ================================ */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -421,7 +416,7 @@ footer {
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.5);
     display: none;
-    /* 초기에는 숨김 */
+    /* 초기 숨김 */
     justify-content: center;
     align-items: center;
     z-index: 1000;
@@ -451,4 +446,38 @@ footer {
     cursor: pointer;
     margin-top: 1rem;
     font-weight: 600;
+}
+
+
+/* ================================
+     10) 오른쪽 하단 고정 CTA
+  ================================ */
+.floating-cta {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(242, 39, 39, 0.3);
+    color: #fff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    z-index: 999;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.floating-cta:hover {
+    background-color: rgba(242, 39, 39, 0.9);
+}
+
+
+/* ================================
+     11) 이모지 크기
+  ================================ */
+.emoji {
+    font-size: 5rem;
+    line-height: 1;
 }
